@@ -90,9 +90,22 @@ for a, b in edge_set:
 fig = go.Figure(data=[mesh] + edges + vectors + [labels])
 
 fig.update_layout(
+    scene=dict(
+        aspectmode="data",
+        camera=dict(
+            projection=dict(type="orthographic")
+        )
+    ),
+    margin=dict(l=0, r=0, t=30, b=0),
+    title="正二十面体（並行投影）"
+)
+
+"""
+fig.update_layout(
     scene=dict(aspectmode='data'),
     margin=dict(l=0, r=0, t=30, b=0),
     title="Icosahedron"
 )
+"""
 
 st.plotly_chart(fig, use_container_width=True)
