@@ -500,12 +500,12 @@ if __name__ == '__main__':
     ax1.view_init(elev=15, azim=15)
     ax2.view_init(elev=15, azim=15)
     
-    ax1.w_xaxis.set_pane_color((0., 0., 0., 0.))
-    ax1.w_yaxis.set_pane_color((0., 0., 0., 0.))
-    ax1.w_zaxis.set_pane_color((0., 0., 0., 0.))
-    ax2.w_xaxis.set_pane_color((0., 0., 0., 0.))
-    ax2.w_yaxis.set_pane_color((0., 0., 0., 0.))
-    ax2.w_zaxis.set_pane_color((0., 0., 0., 0.))
+    #ax1.w_xaxis.set_pane_color((0., 0., 0., 0.))
+    #ax1.w_yaxis.set_pane_color((0., 0., 0., 0.))
+    #ax1.w_zaxis.set_pane_color((0., 0., 0., 0.))
+    #ax2.w_xaxis.set_pane_color((0., 0., 0., 0.))
+    #ax2.w_yaxis.set_pane_color((0., 0., 0., 0.))
+    #ax2.w_zaxis.set_pane_color((0., 0., 0., 0.))
     
     ax1.grid(False)
     ax2.grid(False)
