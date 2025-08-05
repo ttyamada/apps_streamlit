@@ -30,7 +30,7 @@ mesh = go.Mesh3d(
     x=x, y=y, z=z,
     i=i, j=j, k=k,
     color='lightblue',
-    opacity=0.8,
+    opacity=0.1,
     flatshading=True,
     name='Icosahedron'
 )
