@@ -2,12 +2,12 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 
-st.title("正二十面体と原点からのベクトル表示")
+st.title("正二十面体：原点からのベクトル＋頂点番号表示")
 
 # 黄金比 τ
 tau = (1 + np.sqrt(5)) / 2
 
-# 正二十面体の頂点座標（正規化）
+# 頂点座標（正規化）
 vertices = np.array([
     [-1,  tau,  0], [ 1,  tau,  0], [-1, -tau,  0], [ 1, -tau,  0],
     [ 0, -1,  tau], [ 0,  1,  tau], [ 0, -1, -tau], [ 0,  1, -tau],
@@ -15,7 +15,7 @@ vertices = np.array([
 ])
 vertices /= np.linalg.norm(vertices[0])  # 半径1に正規化
 
-# 各三角形の面（インデックス）
+# 三角形面（インデックス）
 faces = [
     [0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7,10], [0,10,11],
     [1, 5, 9], [5,11,4], [11,10,2], [10,7,6], [7,1,8],
@@ -23,7 +23,7 @@ faces = [
     [4,9,5], [2,4,11], [6,2,10], [8,6,7], [9,8,1]
 ]
 
-# 頂点 Mesh3D
+# メッシュ（三角形面）
 x, y, z = vertices.T
 i, j, k = zip(*faces)
 mesh = go.Mesh3d(
@@ -35,25 +35,34 @@ mesh = go.Mesh3d(
     name='Icosahedron'
 )
 
-# 原点から各頂点へのベクトル（線分）
-vector_lines = []
+# 原点から各頂点へのベクトル（赤い線）
+vectors = []
 for vx, vy, vz in vertices:
-    vector_lines.append(
+    vectors.append(
         go.Scatter3d(
             x=[0, vx], y=[0, vy], z=[0, vz],
             mode='lines',
-            line=dict(color='red', width=4),
+            line=dict(color='red', width=3),
             showlegend=False
         )
     )
 
-# Plotly figure に追加
-fig = go.Figure(data=[mesh] + vector_lines)
+# 頂点番号ラベル
+labels = go.Scatter3d(
+    x=x, y=y, z=z,
+    mode='text',
+    text=[str(i) for i in range(len(vertices))],
+    textposition='top center',
+    textfont=dict(size=14, color='black'),
+    showlegend=False
+)
 
+# 図をまとめて描画
+fig = go.Figure(data=[mesh] + vectors + [labels])
 fig.update_layout(
     scene=dict(aspectmode='data'),
     margin=dict(l=0, r=0, t=30, b=0),
-    title="Icosahedron と原点からのベクトル"
+    title="Icosahedron（正二十面体）＋原点ベクトル＋頂点番号"
 )
 
 # Streamlit 表示
