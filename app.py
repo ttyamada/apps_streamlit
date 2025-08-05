@@ -97,15 +97,7 @@ fig.update_layout(
         )
     ),
     margin=dict(l=0, r=0, t=30, b=0),
-    title="正二十面体（並行投影）"
-)
-
-"""
-fig.update_layout(
-    scene=dict(aspectmode='data'),
-    margin=dict(l=0, r=0, t=30, b=0),
     title="Icosahedron"
 )
-"""
 
 st.plotly_chart(fig, use_container_width=True)
