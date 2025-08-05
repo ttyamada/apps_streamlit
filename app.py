@@ -2,16 +2,25 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 
-st.title("正二十面体：面・辺・頂点・ベクトルの全表示")
+st.title("Icosahedron")
 
 # 黄金比 τ
 tau = (1 + np.sqrt(5)) / 2
 
 # 頂点座標（正規化）
 vertices = np.array([
-    [-1,  tau,  0], [ 1,  tau,  0], [-1, -tau,  0], [ 1, -tau,  0],
-    [ 0, -1,  tau], [ 0,  1,  tau], [ 0, -1, -tau], [ 0,  1, -tau],
-    [ tau,  0, -1], [ tau,  0,  1], [-tau,  0, -1], [-tau,  0,  1]
+    [-1,  tau,  0], 
+    [ 1,  tau,  0], 
+    [-1, -tau,  0], 
+    [ 1, -tau,  0],
+    [ 0, -1,  tau], 
+    [ 0,  1,  tau], 
+    [ 0, -1, -tau], 
+    [ 0,  1, -tau],
+    [ tau,  0, -1], 
+    [ tau,  0,  1], 
+    [-tau,  0, -1], 
+    [-tau,  0,  1]
 ])
 vertices /= np.linalg.norm(vertices[0])
 
@@ -50,7 +59,7 @@ vectors = [
 labels = go.Scatter3d(
     x=x, y=y, z=z,
     mode='text',
-    text=[str(i) for i in range(len(vertices))],
+    text=[str(i+1) for i in range(len(vertices))],
     textposition='top center',
     textfont=dict(size=14, color='black'),
     showlegend=False
@@ -83,7 +92,7 @@ fig = go.Figure(data=[mesh] + edges + vectors + [labels])
 fig.update_layout(
     scene=dict(aspectmode='data'),
     margin=dict(l=0, r=0, t=30, b=0),
-    title="正二十面体：辺・ベクトル・番号付き"
+    title="Icosahedron"
 )
 
 st.plotly_chart(fig, use_container_width=True)
