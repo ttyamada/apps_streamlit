@@ -89,7 +89,7 @@ vertex_labels = [str(i) for i in range(len(vertices))]
 
 # hover用テキスト（頂点座標）表示切替
 if show_coords:
-    hover_texts = [f"vertex {i}<br>x={v[0]:.3f}<br>y={v[1]:.3f}<br>z={v[2]:.3f}" for i, v in enumerate(vertices)]
+    hover_texts = [f"vertex {i+1}<br>x={v[0]:.3f}<br>y={v[1]:.3f}<br>z={v[2]:.3f}" for i, v in enumerate(vertices)]
 else:
     hover_texts = [""] * len(vertices)
 
@@ -119,7 +119,7 @@ if show_5fold:
             z=[va[2], vb[2]],
             mode='lines',
             line=dict(color='purple', width=4),
-            name='5-fold axis'
+            name='5fold axis'
         ))
 
 # 3回軸（面の重心の対称ペア）
@@ -142,7 +142,7 @@ if show_3fold:
             z=[c1[2], c2[2]],
             mode='lines',
             line=dict(color='green', width=4),
-            name='3-fold axis'
+            name='3fold axis'
         ))
 
 # 2回軸（辺の中点の対称ペア）
@@ -170,7 +170,7 @@ if show_2fold:
             z=[e1[2], e2[2]],
             mode='lines',
             line=dict(color='blue', width=3),
-            #name='2-fold axis'
+            name='2fold axis'
         ))
 
 fig = go.Figure(data=[mesh, points] + edges_ico + axis_lines)
