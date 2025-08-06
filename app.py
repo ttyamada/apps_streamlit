@@ -5,12 +5,11 @@ import plotly.graph_objects as go
 st.title("Icosahedron")
 
 # チェックボックス群
-show_2fold = st.checkbox("2-fold axis", value=True)
-show_3fold = st.checkbox("3-fold axis", value=True)
-show_5fold = st.checkbox("5-fold axis", value=True)
-show_coords = st.checkbox("XYZ Coordinates", value=False)
+show_2fold = st.checkbox("2-fold axis", value=False)
+show_3fold = st.checkbox("3-fold axis", value=False)
+show_5fold = st.checkbox("5-fold axis", value=False)
+show_coords = st.checkbox("XYZ Coordinates", value=True)
 
-# 黄金比
 tau = (1 + np.sqrt(5)) / 2
 
 # 頂点定義
@@ -186,7 +185,7 @@ if show_2fold:
             y=[e1[1], e2[1]],
             z=[e1[2], e2[2]],
             mode='lines',
-            line=dict(color='blue', width=3),
+            line=dict(color='blue', width=4),
             name='2fold axis'
         ))
 
