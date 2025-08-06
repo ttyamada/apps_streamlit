@@ -62,6 +62,27 @@ mesh = go.Mesh3d(
     name='Icosahedron'
 )
 
+# 辺（重複を避けるため、set を使ってユニークな辺を抽出）
+edge_set = set()
+for face in faces:
+    for a, b in [(face[0], face[1]), (face[1], face[2]), (face[2], face[0])]:
+        edge = tuple(sorted((a, b)))  # 順序を正規化
+        edge_set.add(edge)
+
+# 辺を線として描画（黒線）
+edges = []
+for a, b in edge_set:
+    ax, ay, az = vertices[a]
+    bx, by, bz = vertices[b]
+    edges.append(
+        go.Scatter3d(
+            x=[ax, bx], y=[ay, by], z=[az, bz],
+            mode='lines',
+            line=dict(color='black', width=2),
+            showlegend=False
+        )
+    )
+
 
 # 頂点番号は常に表示
 vertex_labels = [str(i) for i in range(len(vertices))]
