@@ -13,7 +13,7 @@ show_coords = st.checkbox("XYX Coordinates", value=False)
 # 黄金比
 tau = (1 + np.sqrt(5)) / 2
 
-# 頂点定義（正規化）
+# 頂点定義
 vertices = np.array([
     [-1,  tau,  0], 
     [ 1,  tau,  0], 
@@ -28,7 +28,8 @@ vertices = np.array([
     [-tau,  0, -1], 
     [-tau,  0,  1]
 ])
-vertices /= np.linalg.norm(vertices[0])
+# 正規化
+#vertices /= np.linalg.norm(vertices[0])
 
 # 面（三角形）インデックス
 faces = [
