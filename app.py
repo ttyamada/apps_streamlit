@@ -8,7 +8,7 @@ st.title("Icosahedron")
 show_2fold = st.checkbox("2-fold axis", value=True)
 show_3fold = st.checkbox("3-fold axis", value=True)
 show_5fold = st.checkbox("5-fold axis", value=True)
-show_coords = st.checkbox("XYX Coordinates", value=False)
+show_coords = st.checkbox("XYZ Coordinates", value=False)
 
 # 黄金比
 tau = (1 + np.sqrt(5)) / 2
