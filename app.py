@@ -2,17 +2,18 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 
-st.title("正二十面体の回転対称軸（正確版）")
+st.title("正二十面体の回転軸と頂点座標表示切替")
 
-# チェックボックスで軸の表示切替
+# チェックボックス群
 show_2fold = st.checkbox("2回回転軸を表示", value=True)
 show_3fold = st.checkbox("3回回転軸を表示", value=True)
 show_5fold = st.checkbox("5回回転軸を表示", value=True)
+show_coords = st.checkbox("頂点座標を表示", value=False)
 
 # 黄金比
 tau = (1 + np.sqrt(5)) / 2
 
-# 頂点の定義（正規化）
+# 頂点定義（正規化）
 vertices = np.array([
     [-1,  tau,  0], [ 1,  tau,  0], [-1, -tau,  0], [ 1, -tau,  0],
     [ 0, -1,  tau], [ 0,  1,  tau], [ 0, -1, -tau], [ 0,  1, -tau],
@@ -20,7 +21,6 @@ vertices = np.array([
 ])
 vertices /= np.linalg.norm(vertices[0])
 
-# 面（三角形のインデックス）
 faces = [
     [0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7,10], [0,10,11],
     [1, 5, 9], [5,11,4], [11,10,2], [10,7,6], [7,1,8],
@@ -40,21 +40,33 @@ mesh = go.Mesh3d(
     name="Icosahedron"
 )
 
-# 頂点番号
-labels = go.Scatter3d(
+# 頂点番号は常に表示
+vertex_labels = [str(i) for i in range(len(vertices))]
+
+# hover用テキスト（頂点座標）表示切替
+if show_coords:
+    hover_texts = [f"頂点 {i}<br>x={v[0]:.3f}<br>y={v[1]:.3f}<br>z={v[2]:.3f}" for i, v in enumerate(vertices)]
+else:
+    hover_texts = [""] * len(vertices)
+
+# 頂点Scatter3d
+points = go.Scatter3d(
     x=x, y=y, z=z,
-    mode="text",
-    text=[str(n) for n in range(len(vertices))],
-    textfont=dict(size=12, color='black'),
-    showlegend=False
+    mode='markers+text',
+    marker=dict(size=6, color='red'),
+    text=vertex_labels,
+    textposition='top center',
+    hoverinfo='text',
+    hovertext=hover_texts,
+    name="頂点"
 )
 
 axis_lines = []
 
-# ----- 5回回転軸（対頂点） -----
+# 5回軸（対頂点）
 if show_5fold:
     fivefold_pairs = [(0,3), (1,2), (4,7), (5,6), (8,11), (9,10)]
-    for a, b in fivefold_pairs:
+    for a,b in fivefold_pairs:
         va = vertices[a]
         vb = vertices[b]
         axis_lines.append(go.Scatter3d(
@@ -66,23 +78,19 @@ if show_5fold:
             name='5-fold axis'
         ))
 
-# ----- 3回回転軸（面の重心の対ペア） -----
+# 3回軸（面の重心の対称ペア）
 if show_3fold:
-    # 面の重心
     face_centers = np.array([np.mean(vertices[face], axis=0) for face in faces])
-    # 中心対称な重心ペアを抽出
     threefold_pairs = []
     used = set()
     for i, c1 in enumerate(face_centers):
         for j, c2 in enumerate(face_centers):
             if i >= j:
                 continue
-            # 中心対称なので c1 + c2 ≈ 0 のはず
             if np.allclose(c1 + c2, np.zeros(3), atol=1e-5):
                 if (j,i) not in used:
                     threefold_pairs.append((c1, c2))
                     used.add((i,j))
-    # 描画
     for c1, c2 in threefold_pairs:
         axis_lines.append(go.Scatter3d(
             x=[c1[0], c2[0]],
@@ -93,16 +101,14 @@ if show_3fold:
             name='3-fold axis'
         ))
 
-# ----- 2回回転軸（辺の中点の対称ペア） -----
+# 2回軸（辺の中点の対称ペア）
 if show_2fold:
-    # 辺集合
     edges = set()
     for a,b,c in faces:
         edges.add(tuple(sorted((a,b))))
         edges.add(tuple(sorted((b,c))))
         edges.add(tuple(sorted((c,a))))
-    edge_centers = np.array([0.5*(vertices[a] + vertices[b]) for a,b in edges])
-    # 中心対称ペアを抽出
+    edge_centers = np.array([0.5*(vertices[a]+vertices[b]) for a,b in edges])
     twofold_pairs = []
     used = set()
     for i, e1 in enumerate(edge_centers):
@@ -113,7 +119,6 @@ if show_2fold:
                 if (j,i) not in used:
                     twofold_pairs.append((e1, e2))
                     used.add((i,j))
-    # 描画
     for e1, e2 in twofold_pairs:
         axis_lines.append(go.Scatter3d(
             x=[e1[0], e2[0]],
@@ -124,16 +129,15 @@ if show_2fold:
             name='2-fold axis'
         ))
 
-# 描画設定
-fig = go.Figure(data=[mesh, labels] + axis_lines)
+fig = go.Figure(data=[mesh, points] + axis_lines)
+
 fig.update_layout(
     scene=dict(
         aspectmode='data',
         camera=dict(projection=dict(type='orthographic'))
     ),
     margin=dict(l=0, r=0, t=30, b=0),
-    title="正二十面体の回転対称軸（正確版）"
+    title="正二十面体の回転軸と頂点座標表示切替"
 )
 
-import streamlit as st
 st.plotly_chart(fig, use_container_width=True)
