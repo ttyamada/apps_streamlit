@@ -5,9 +5,9 @@ import plotly.graph_objects as go
 st.title("Icosahedron")
 
 # チェックボックス群
-show_2fold = st.checkbox("2fold axis", value=True)
-show_3fold = st.checkbox("3fold axis", value=True)
-show_5fold = st.checkbox("5fold axis", value=True)
+show_2fold = st.checkbox("2-fold axis", value=True)
+show_3fold = st.checkbox("3-fold axis", value=True)
+show_5fold = st.checkbox("5-fold axis", value=True)
 show_coords = st.checkbox("XYX Coordinates", value=False)
 
 # 黄金比
@@ -89,7 +89,7 @@ vertex_labels = [str(i) for i in range(len(vertices))]
 
 # hover用テキスト（頂点座標）表示切替
 if show_coords:
-    hover_texts = [f"頂点 {i}<br>x={v[0]:.3f}<br>y={v[1]:.3f}<br>z={v[2]:.3f}" for i, v in enumerate(vertices)]
+    hover_texts = [f"vertex {i}<br>x={v[0]:.3f}<br>y={v[1]:.3f}<br>z={v[2]:.3f}" for i, v in enumerate(vertices)]
 else:
     hover_texts = [""] * len(vertices)
 
@@ -97,12 +97,12 @@ else:
 points = go.Scatter3d(
     x=x, y=y, z=z,
     mode='markers+text',
-    marker=dict(size=6, color='red'),
+    marker=dict(size=4, color='blue'),
     text=vertex_labels,
     textposition='top center',
     hoverinfo='text',
     hovertext=hover_texts,
-    name="頂点"
+    name="Vertices"
 )
 
 axis_lines = []
@@ -118,7 +118,7 @@ if show_5fold:
             y=[va[1], vb[1]],
             z=[va[2], vb[2]],
             mode='lines',
-            line=dict(color='purple', width=6, dash='dot'),
+            line=dict(color='purple', width=4),
             name='5-fold axis'
         ))
 
@@ -170,7 +170,7 @@ if show_2fold:
             z=[e1[2], e2[2]],
             mode='lines',
             line=dict(color='blue', width=3),
-            name='2-fold axis'
+            #name='2-fold axis'
         ))
 
 fig = go.Figure(data=[mesh, points] + edges_ico + axis_lines)
@@ -181,7 +181,7 @@ fig.update_layout(
         camera=dict(projection=dict(type='orthographic'))
     ),
     margin=dict(l=0, r=0, t=30, b=0),
-    title="正二十面体の回転軸と頂点座標表示切替"
+    title="Icosahedron"
 )
 
 st.plotly_chart(fig, use_container_width=True)
