@@ -30,13 +30,13 @@ vertices = np.array([
 ])
 vertices /= np.linalg.norm(vertices[0])
 
+# 面（三角形）インデックス
 faces = [
     [0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7,10], [0,10,11],
     [1, 5, 9], [5,11,4], [11,10,2], [10,7,6], [7,1,8],
     [3,9,4], [3,4,2], [3,2,6], [3,6,8], [3,8,9],
     [4,9,5], [2,4,11], [6,2,10], [8,6,7], [9,8,1]
 ]
-
 
 #x, y, z = vertices.T
 #i, j, k = zip(*faces)
@@ -70,11 +70,11 @@ for face in faces:
         edge_set.add(edge)
 
 # 辺を線として描画（黒線）
-edges = []
+edges_ico = []
 for a, b in edge_set:
     ax, ay, az = vertices[a]
     bx, by, bz = vertices[b]
-    edges.append(
+    edges_ico.append(
         go.Scatter3d(
             x=[ax, bx], y=[ay, by], z=[az, bz],
             mode='lines',
@@ -173,7 +173,7 @@ if show_2fold:
             name='2-fold axis'
         ))
 
-fig = go.Figure(data=[mesh, points] + axis_lines)
+fig = go.Figure(data=[mesh, points] + edges_ico + axis_lines)
 
 fig.update_layout(
     scene=dict(
