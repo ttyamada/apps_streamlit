@@ -89,7 +89,7 @@ vertex_labels = [str(i) for i in range(len(vertices))]
 
 # hover用テキスト（頂点座標）表示切替
 if show_coords:
-    hover_texts = [f"vertex {i+1}<br>x={v[0]:.3f}<br>y={v[1]:.3f}<br>z={v[2]:.3f}" for i, v in enumerate(vertices)]
+    hover_texts = [f"vertex {i}<br>x={v[0]:.3f}<br>y={v[1]:.3f}<br>z={v[2]:.3f}" for i, v in enumerate(vertices)]
 else:
     hover_texts = [""] * len(vertices)
 
