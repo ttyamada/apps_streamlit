@@ -37,17 +37,31 @@ faces = [
     [4,9,5], [2,4,11], [6,2,10], [8,6,7], [9,8,1]
 ]
 
-x, y, z = vertices.T
-i, j, k = zip(*faces)
+
+#x, y, z = vertices.T
+#i, j, k = zip(*faces)
 
 # 正二十面体メッシュ
+#mesh = go.Mesh3d(
+#    x=x, y=y, z=z,
+#    i=i, j=j, k=k,
+#    color='lightblue',
+#    opacity=0.1,
+#    name="Icosahedron"
+#)
+
+# 面（Mesh3D）
+x, y, z = vertices.T
+i, j, k = zip(*faces)
 mesh = go.Mesh3d(
     x=x, y=y, z=z,
     i=i, j=j, k=k,
     color='lightblue',
     opacity=0.1,
-    name="Icosahedron"
+    flatshading=True,
+    name='Icosahedron'
 )
+
 
 # 頂点番号は常に表示
 vertex_labels = [str(i) for i in range(len(vertices))]
