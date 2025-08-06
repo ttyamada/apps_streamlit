@@ -2,22 +2,31 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 
-st.title("正二十面体の回転軸と頂点座標表示切替")
+st.title("Icosahedron")
 
 # チェックボックス群
-show_2fold = st.checkbox("2回回転軸を表示", value=True)
-show_3fold = st.checkbox("3回回転軸を表示", value=True)
-show_5fold = st.checkbox("5回回転軸を表示", value=True)
-show_coords = st.checkbox("頂点座標を表示", value=False)
+show_2fold = st.checkbox("2fold axis", value=True)
+show_3fold = st.checkbox("3fold axis", value=True)
+show_5fold = st.checkbox("5fold axis", value=True)
+show_coords = st.checkbox("XYX Coordinates", value=False)
 
 # 黄金比
 tau = (1 + np.sqrt(5)) / 2
 
 # 頂点定義（正規化）
 vertices = np.array([
-    [-1,  tau,  0], [ 1,  tau,  0], [-1, -tau,  0], [ 1, -tau,  0],
-    [ 0, -1,  tau], [ 0,  1,  tau], [ 0, -1, -tau], [ 0,  1, -tau],
-    [ tau,  0, -1], [ tau,  0,  1], [-tau,  0, -1], [-tau,  0,  1]
+    [-1,  tau,  0], 
+    [ 1,  tau,  0], 
+    [-1, -tau,  0], 
+    [ 1, -tau,  0],
+    [ 0, -1,  tau], 
+    [ 0,  1,  tau], 
+    [ 0, -1, -tau], 
+    [ 0,  1, -tau],
+    [ tau,  0, -1], 
+    [ tau,  0,  1], 
+    [-tau,  0, -1], 
+    [-tau,  0,  1]
 ])
 vertices /= np.linalg.norm(vertices[0])
 
@@ -36,7 +45,7 @@ mesh = go.Mesh3d(
     x=x, y=y, z=z,
     i=i, j=j, k=k,
     color='lightblue',
-    opacity=0.7,
+    opacity=0.1,
     name="Icosahedron"
 )
 
